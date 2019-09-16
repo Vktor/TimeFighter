@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.os.CountDownTimer
 import android.widget.Button
 import android.widget.TextView
+import android.widget.Toast
 
 class MainActivity : AppCompatActivity() {
     internal lateinit var tapMebutton: Button
@@ -42,12 +43,21 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onFinish() {
-                //to be implement later
+                endGame()
             }
         }
         gameStarted = false
     }
+    private fun startGame(){
+        countDownTimer.start()
+        gameStarted=true
+    }
+    private fun endGame(){
+        Toast.makeText(this, getString(R.string.game_over_message, score.toString()), Toast.LENGTH_LONG)
+        resetGame()
+    }
     private fun incrementScore(){
+        if(!gameStarted) startGame()
         score+=1
         val newScore = getString(R.string.your_score_s, score.toString()) //obtengo el String desde los res y le asigno el valor de Score a %s (conviertiendolo en String)
         gameScoreTextview.text = newScore //agrego el nuevo texto a la vista
